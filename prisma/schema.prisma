@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Produto {
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  preco        Float          @default(0)
+  estoque      Int            @default(0)
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+
+  pedidoProdutos PedidoProduto[] // Relacionamento com PedidoProduto
+}
+
+model Cliente {
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+
+  pedidos      Pedido[]       // Relacionamento com Pedido
+}
+
+model Pedido {
+  id           Int            @id @default(autoincrement())
+  clienteId    Int
+  cliente      Cliente        @relation(fields: [clienteId], references: [id])
+  criadoEm     DateTime       @default(now())
+  produtos     PedidoProduto[] // Relacionamento com PedidoProduto
+}
+
+model PedidoProduto {
+  id           Int            @id @default(autoincrement())
+  pedidoId     Int
+  pedido       Pedido         @relation(fields: [pedidoId], references: [id])
+  produtoId    Int
+  produto      Produto        @relation(fields: [produtoId], references: [id])
+  quantidade   Int            @default(1)
+
+  @@unique([pedidoId, produtoId]) // Índice composto
+}
+
+model Usuario {
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  senha        String         @db.VarChar(255)
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+
+  roles        UsuarioRole[]  // Relacionamento com UsuarioRole
+}
+
+model Role {
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  descricao    String         @db.VarChar(255)
+
+  usuarios     UsuarioRole[]  // Relacionamento com UsuarioRole
+}
+
+model UsuarioRole {
+  id           Int            @id @default(autoincrement())
+  usuarioId    Int
+  usuario      Usuario        @relation(fields: [usuarioId], references: [id])
+  roleId       Int
+  role         Role           @relation(fields: [roleId], references: [id])
+}

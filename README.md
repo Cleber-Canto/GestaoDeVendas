@@ -174,3 +174,6 @@ Funções e Permissões
     Atualizar Associação de Usuário e Role: PUT /usuarioRoles/:id
 
     Deletar Associação de Usuário e Role: DELETE /usuarioRoles/:id
+
+
+    sudo docker run --name sales -p 5435:5432 -e POSTGRES_PASSWORD=nova_senha -e POSTGRES_USER=postgres -d postgres

@@ -7,6 +7,9 @@ import clienteRoutes from './routes/clienteRoutes';
 import pedidoRoutes from './routes/pedidoRoutes';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import pedidoProdutoRouter from './routes/pedidoProdutoRoutes';
+import roleRouter from './routes/roleRoutes';
+import usuarioRoleRouter from './routes/usuarioRoleRoutes';
 //import { authMiddleware } from './middleware/authMiddleware';
 import ErrorHandling from './utils/errors.handling'; // Corrigido para o caminho correto
 
@@ -26,6 +29,9 @@ app.use('/auth', authRoutes);
 
 // Rotas Privadas
 app.use('/api/produtos', produtoRoutes);
+app.use('/pedidoProdutos', pedidoProdutoRouter);
+app.use('/roles', roleRouter);
+app.use('/usuarioRoles', usuarioRoleRouter);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/pedidos', pedidoRoutes);
 app.use('/api/users', userRoutes);
